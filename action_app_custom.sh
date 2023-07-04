@@ -37,6 +37,7 @@ function app_minify()
 {
     if [[ "$APP_NAME" == "legado" ]]; then
         debug "缩小apk体积"
+        echo 'android.enableR8=false' >> $APP_WORKSPACE/app/build.gradle
         sed -e '/minifyEnabled/i\            shrinkResources true' \
             -e 's/minifyEnabled false/minifyEnabled true/' \
             $APP_WORKSPACE/app/build.gradle -i
@@ -81,7 +82,7 @@ function app_not_apply_plugin()
 app_sign;
 
 #是否启用资源压缩,默认不压缩
-# [[ "$SECRETS_MINIFY" == "true" ]] && app_minify;
+[[ "$SECRETS_MINIFY" == "true" ]] && app_minify;
 
 #阅读3.0
 app_clear_18plus;
